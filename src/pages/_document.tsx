@@ -9,28 +9,51 @@ import Document, {
 } from 'next/document'
 import { ServerStyleSheets } from '@material-ui/core/styles'
 import { mainTheme as theme } from '../themes/main'
+import { ManifestLoads } from '../components/ManifestLoads'
+import {
+  defaultMetaContextData,
+  MetaContextData,
+  MetaProvider,
+} from '../contexts/MetaContext'
+
+/**
+ * MyDocumentState type.
+ */
+export type MyDocumentState = {
+  /**
+   * meta data.
+   */
+  meta: MetaContextData
+}
 
 /**
  * MyDocument class.
  */
 export default class MyDocument extends Document {
+  state: MyDocumentState = {
+    meta: defaultMetaContextData,
+  }
+
   /**
    * Render.
    */
   render(): ReactElement {
     return (
       <Html lang="ja">
-        <Head>
-          <meta name="theme-color" content={theme.palette.primary.main} />
-          <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-          />
-        </Head>
-        <body>
-          <Main />
-          <NextScript />
-        </body>
+        <MetaProvider value={this.state.meta}>
+          <Head>
+            <meta name="theme-color" content={theme.palette.primary.main} />
+            <link
+              rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            />
+            <ManifestLoads />
+          </Head>
+          <body>
+            <Main />
+            <NextScript />
+          </body>
+        </MetaProvider>
       </Html>
     )
   }
