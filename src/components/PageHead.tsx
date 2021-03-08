@@ -25,7 +25,7 @@ export const PageHead: React.FC<PageHeadProps> = (props) => {
   return (
     <>
       <Head>
-        <title>{props.title ?? meta.catchphrase} / motimoti</title>
+        <title>{props.title ?? meta.catchphrase} / Motimoti</title>
         <meta
           name="description"
           content={props.description ?? meta.catchphrase}
