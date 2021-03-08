@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core'
 import { NextPage } from 'next'
 import Head from 'next/head'
 
@@ -8,10 +9,14 @@ export const HomePage: NextPage = () => {
   return (
     <>
       <Head>
-        <title>home - motimoti-ui</title>
+        <title>home - ui-material</title>
       </Head>
 
-      <div>motimoti-ui</div>
+      <div>
+        <Button color="primary" variant="contained">
+          hello world
+        </Button>
+      </div>
     </>
   )
 }
