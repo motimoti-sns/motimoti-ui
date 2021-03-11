@@ -858,7 +858,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.10.0", "@babel/runtime@^7.6.0":
+"@babel/runtime@^7.10.0", "@babel/runtime@^7.12.1", "@babel/runtime@^7.6.0":
   version "7.13.10"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.13.10.tgz#47d42a57b6095f4468da440388fdbad8bebf0d7d"
   integrity sha512-4QPkjJq6Ns3V/RgpEahRk+AGfL0eO6RHHtTWoNNr5mO49G6B5+X6d6THgWEAvTrznU5xYpbAlVKRYcsCgh/Akw==
@@ -4324,6 +4324,13 @@ react-dom@17.0.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
     scheduler "^0.20.1"
+
+react-final-form@^6.5.2:
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/react-final-form/-/react-final-form-6.5.2.tgz#d04d1eb7d92eabc6f6c35206bb0eebfc4bfd924b"
+  integrity sha512-c5l45FYOoxtfpvsvMFh3w2WW8KNxbuebBUrM16rUrooQkewTs0Zahmv0TuKFX5jsC9BKn5Fo84j3ZVXQdURS4w==
+  dependencies:
+    "@babel/runtime" "^7.12.1"
 
 react-is@16.13.1, react-is@^16.7.0, react-is@^16.8.1:
   version "16.13.1"
