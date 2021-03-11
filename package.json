@@ -17,7 +17,8 @@
     "next": "10.0.6",
     "next-pwa": "^5.0.6",
     "react": "17.0.1",
-    "react-dom": "17.0.1"
+    "react-dom": "17.0.1",
+    "react-particles-js": "^3.4.1"
   },
   "devDependencies": {
     "@types/node": "^14.14.22",
