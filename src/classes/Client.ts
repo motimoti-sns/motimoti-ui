@@ -10,6 +10,14 @@ export type RegisterParams = {
 }
 
 /**
+ * LoginParams type.
+ */
+export type LoginParams = {
+  email: string
+  password: string
+}
+
+/**
  * API Client class.
  */
 export class Client {
@@ -35,6 +43,17 @@ export class Client {
    * @param params register params.
    */
   async register(params: RegisterParams): Promise<string> {
+    const res = await this.http.post('/api/register', params)
+
+    return res.data
+  }
+
+  /**
+   * login to the user and returns the jwt token.
+   *
+   * @param params login params.
+   */
+  async login(params: LoginParams): Promise<string> {
     const res = await this.http.post('/api/register', params)
 
     return res.data
