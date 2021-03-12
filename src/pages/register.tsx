@@ -16,6 +16,7 @@ import {
 import { LockOutlined, PersonAdd } from '@material-ui/icons'
 import { TextField } from 'mui-rff'
 import { NextPage } from 'next'
+import Link from 'next/link'
 import { useState } from 'react'
 import { Form } from 'react-final-form'
 import Particles from 'react-particles-js'
@@ -225,11 +226,13 @@ export const RegisterPage: NextPage = () => {
                   </CardContent>
                   <Divider />
                   <CardActions className={classes.actionWrap}>
-                    <Button size="small" disabled={loading}>
-                      既にアカウントを持ってる方はこちら
-                    </Button>
+                    <Link href="/login">
+                      <Button color="primary" disabled={loading}>
+                        既にアカウントを持ってる方はこちら
+                      </Button>
+                    </Link>
                     <Button
-                      color="primary"
+                      color="secondary"
                       variant="contained"
                       endIcon={<PersonAdd />}
                       onClick={handleSubmit}
