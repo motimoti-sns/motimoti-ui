@@ -73,7 +73,7 @@ export const TimelineLayout: React.FC = (props) => {
         open
       >
         <div className={classes.brand}>
-          <Image src="/motimoti-light-512.png" width={128} height={128} />
+          <Image src="/motimoti-dark.svg" width={128} height={128} />
         </div>
         <Divider />
         <List>
