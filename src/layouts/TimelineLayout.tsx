@@ -11,10 +11,12 @@ import {
 import {
   AccountCircle,
   Email,
+  ExitToApp,
   Home,
   Notifications,
   Settings,
 } from '@material-ui/icons'
+import clsx from 'clsx'
 import Image from 'next/image'
 import { useState } from 'react'
 
@@ -45,9 +47,12 @@ const useStyles = makeStyles({
     padding: 16,
   },
   menuItem: {
-    paddingLeft: 32,
+    paddingLeft: 48,
     height: 64,
     fontWeight: 'bold',
+  },
+  logoutButton: {
+    marginTop: 32,
   },
 })
 
@@ -109,6 +114,13 @@ export const TimelineLayout: React.FC = (props) => {
               <Settings />
             </ListItemIcon>
             <ListItemText primary="設定" />
+          </ListItem>
+          <Divider />
+          <ListItem button className={clsx(classes.menuItem)}>
+            <ListItemIcon>
+              <ExitToApp />
+            </ListItemIcon>
+            <ListItemText primary="ログアウト" />
           </ListItem>
         </List>
       </Drawer>
