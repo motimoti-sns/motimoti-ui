@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 import { AppProps } from 'next/app'
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
+import nookies from 'nookies'
 import { mainTheme as theme } from '../themes/main'
 import { Client } from '../classes/Client'
 import { ApiProvider } from '../contexts/ApiContext'
 
-function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
+function MyApp({ Component, pageProps, router }: AppProps): React.ReactElement {
   useEffect(() => {
     const jssStyles = document.querySelector('#jss-server-side')
     if (jssStyles) {
@@ -15,6 +16,17 @@ function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
   }, [])
 
   const [client] = useState(new Client(process.env.NEXT_PUBLIC_API_URL))
+
+  if (['/login'].includes(router.pathname)) {
+    client.onJwtChanged((jwt) => {
+      if (!jwt) {
+        nookies.destroy(null, 'jwt')
+        nookies.set(null, 'jwt', '', {})
+      } else {
+        nookies.set(null, 'jwt', jwt, {})
+      }
+    })
+  }
 
   return (
     <>
