@@ -6,6 +6,7 @@ import nookies from 'nookies'
 import { mainTheme as theme } from '../themes/main'
 import { Client } from '../classes/Client'
 import { ApiProvider } from '../contexts/ApiContext'
+import { ToastContainer } from 'react-toastify'
 
 function MyApp({ Component, pageProps, router }: AppProps): React.ReactElement {
   useEffect(() => {
@@ -34,6 +35,7 @@ function MyApp({ Component, pageProps, router }: AppProps): React.ReactElement {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <Component {...pageProps} />
+          <ToastContainer />
         </ThemeProvider>
       </ApiProvider>
     </>
