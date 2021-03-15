@@ -27,6 +27,11 @@ export class Client {
   readonly http: AxiosInstance
 
   /**
+   * on jwt changed callback function.
+   */
+  private onJwtChangedFn?: (jwt: string) => void
+
+  /**
    * Client constructor.
    *
    * @param baseURL Base API URL.
@@ -54,8 +59,23 @@ export class Client {
    * @param params login params.
    */
   async login(params: LoginParams): Promise<string> {
-    const res = await this.http.post('/api/login', params)
+    const jwt = await this.http
+      .post<string>('/api/login', params)
+      .then(({ data }) => {
+        this.onJwtChangedFn && this.onJwtChangedFn(data)
 
-    return res.data
+        return data
+      })
+
+    return jwt
+  }
+
+  /**
+   * set on jwt changed callback function.
+   *
+   * @param callback on jwt changed callback function.
+   */
+  onJwtChanged(callback: Client['onJwtChangedFn']): void {
+    this.onJwtChangedFn = callback
   }
 }
