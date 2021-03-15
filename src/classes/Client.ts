@@ -38,6 +38,22 @@ export type CreatePostParams = {
 } & JwtRequired
 
 /**
+ * UpdatePostParams type.
+ */
+export type UpdatePostParams = {
+  post_id: Post['post_id']
+  user_id: User['id']
+  text: string
+} & JwtRequired
+
+/**
+ * DeletePostParams type.
+ */
+export type DeletePostParams = {
+  post_id: Post['post_id']
+} & JwtRequired
+
+/**
  * PostWithUser type.
  */
 export type PostWithUser = Post & {
@@ -122,12 +138,41 @@ export class Client {
   }
 
   /**
+   * update a post.
+   *
+   * @param params update post params.
+   */
+  async updatePost({ jwt, ...params }: UpdatePostParams): Promise<void> {
+    return this.http.put('/api/post', params, {
+      headers: {
+        Authorization: jwt,
+      },
+    })
+  }
+
+  /**
+   * delete a post.
+   *
+   * @param params delete post params.
+   */
+  async deletePost({ jwt, ...params }: DeletePostParams): Promise<void> {
+    return this.http.delete('/api/post', {
+      data: {
+        ...params,
+      },
+      headers: {
+        Authorization: jwt,
+      },
+    })
+  }
+
+  /**
    * returns all posts.
    *
    * @param param0 get posts params.
    */
   async posts({ jwt }: JwtRequired): Promise<Post[]> {
-    const res = await this.http.get<Post[]>('/api/posts/0/1000', {
+    const res = await this.http.get<Post[]>('/api/posts/0/100', {
       headers: {
         Authorization: jwt,
       },
