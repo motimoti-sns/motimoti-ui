@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
+import { User } from '../types/User'
 
 /**
  * RegisterParams type.
@@ -36,7 +37,7 @@ export class Client {
    *
    * @param baseURL Base API URL.
    */
-  constructor(baseURL: string) {
+  constructor(baseURL: string = process.env.NEXT_PUBLIC_API_URL) {
     this.http = axios.create({
       baseURL,
     })
@@ -68,6 +69,17 @@ export class Client {
       })
 
     return jwt
+  }
+
+  /**
+   * fetch all users.
+   *
+   * @returns user array.
+   */
+  async users(): Promise<User[]> {
+    const res = await this.http.get<User[]>('/api/users')
+
+    return res.data
   }
 
   /**
