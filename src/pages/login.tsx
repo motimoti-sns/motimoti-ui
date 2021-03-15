@@ -11,6 +11,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Form } from 'react-final-form'
 import { LoginParams } from '../classes/Client'
+import { useApiContext } from '../contexts/ApiContext'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,9 +37,14 @@ const useStyles = makeStyles((theme) => ({
  */
 export const LoginPage: NextPage = () => {
   const classes = useStyles()
+  const api = useApiContext()
 
-  const login = (data: LoginParams) => {
-    console.log(data)
+  const login = async (data: LoginParams) => {
+    try {
+      await api.client.login(data).then(console.log)
+    } catch (e) {
+      console.log(e)
+    }
   }
 
   const validate = (data: LoginParams) => {
