@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios'
+import { Post } from '../types/Post'
 import { User } from '../types/User'
 
 /**
@@ -35,6 +36,13 @@ export type CreatePostParams = {
   user_id: User['id']
   text: string
 } & JwtRequired
+
+/**
+ * PostWithUser type.
+ */
+export type PostWithUser = Post & {
+  user: User
+}
 
 /**
  * API Client class.
@@ -111,6 +119,38 @@ export class Client {
         Authorization: jwt,
       },
     })
+  }
+
+  /**
+   * returns all posts.
+   *
+   * @param param0 get posts params.
+   */
+  async posts({ jwt }: JwtRequired): Promise<Post[]> {
+    const res = await this.http.get<Post[]>('/api/posts/0/1000', {
+      headers: {
+        Authorization: jwt,
+      },
+    })
+
+    return res.data
+  }
+
+  /**
+   * returns all posts with user field.
+   *
+   * @param param0 get posts params.
+   */
+  async postsWithUser({ jwt }: JwtRequired): Promise<PostWithUser[]> {
+    const posts = await this.posts({ jwt })
+    const users = await this.users()
+
+    const postsWithUser = posts.map((p) => ({
+      ...p,
+      user: users.find((u) => u.id === p.user_id),
+    }))
+
+    return postsWithUser
   }
 
   /**
