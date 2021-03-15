@@ -2,6 +2,16 @@ import axios, { AxiosInstance } from 'axios'
 import { User } from '../types/User'
 
 /**
+ * Jwt required params type.
+ */
+export type JwtRequired = {
+  /**
+   * jwt.
+   */
+  jwt: string
+}
+
+/**
  * RegisterParams type.
  */
 export type RegisterParams = {
@@ -17,6 +27,14 @@ export type LoginParams = {
   email: string
   password: string
 }
+
+/**
+ * CreatePostParams type.
+ */
+export type CreatePostParams = {
+  user_id: User['id']
+  text: string
+} & JwtRequired
 
 /**
  * API Client class.
@@ -80,6 +98,19 @@ export class Client {
     const res = await this.http.get<User[]>('/api/users')
 
     return res.data
+  }
+
+  /**
+   * create a post.
+   *
+   * @param params create post params.
+   */
+  async createPost({ jwt, ...params }: CreatePostParams): Promise<void> {
+    return this.http.post('/api/post', params, {
+      headers: {
+        Authorization: jwt,
+      },
+    })
   }
 
   /**
