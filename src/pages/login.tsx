@@ -4,11 +4,13 @@ import {
   Typography,
   Container,
   Divider,
+  LinearProgress,
 } from '@material-ui/core'
 import { TextField } from 'mui-rff'
 import { NextPage } from 'next'
+import { useRouter } from 'next/dist/client/router'
 import Link from 'next/link'
-import React from 'react'
+import React, { useState } from 'react'
 import { Form } from 'react-final-form'
 import { LoginParams } from '../classes/Client'
 import { useApiContext } from '../contexts/ApiContext'
@@ -36,14 +38,20 @@ const useStyles = makeStyles((theme) => ({
  * LoginPage component.
  */
 export const LoginPage: NextPage = () => {
+  const [loading, setLoading] = useState(false)
   const classes = useStyles()
   const api = useApiContext()
+  const router = useRouter()
 
   const login = async (data: LoginParams) => {
+    setLoading(true)
     try {
-      await api.client.login(data).then(console.log)
+      await api.client.login(data)
+      await router.push('/')
     } catch (e) {
       console.log(e)
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -70,6 +78,7 @@ export const LoginPage: NextPage = () => {
             render={({ handleSubmit }) => (
               <>
                 <form className={classes.form} noValidate>
+                  {loading && <LinearProgress color="secondary" />}
                   <TextField
                     variant="outlined"
                     margin="normal"
@@ -80,6 +89,7 @@ export const LoginPage: NextPage = () => {
                     label="メールアドレス"
                     autoComplete="email"
                     autoFocus
+                    disabled={loading}
                   />
                   <TextField
                     variant="outlined"
@@ -91,6 +101,7 @@ export const LoginPage: NextPage = () => {
                     type="password"
                     label="パスワード"
                     autoComplete="password"
+                    disabled={loading}
                   />
                   <Button
                     fullWidth
@@ -98,6 +109,7 @@ export const LoginPage: NextPage = () => {
                     color="primary"
                     className={classes.submit}
                     onClick={handleSubmit}
+                    disabled={loading}
                   >
                     ログイン
                   </Button>
@@ -108,6 +120,7 @@ export const LoginPage: NextPage = () => {
                       variant="text"
                       color="primary"
                       className={classes.toRegister}
+                      disabled={loading}
                     >
                       まだアカウントを持っていない方はこちら
                     </Button>
