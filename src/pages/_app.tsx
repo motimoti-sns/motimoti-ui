@@ -6,7 +6,7 @@ import nookies from 'nookies'
 import { mainTheme as theme } from '../themes/main'
 import { Client } from '../classes/Client'
 import { ApiProvider } from '../contexts/ApiContext'
-import { ToastContainer } from 'react-toastify'
+import { SnackbarProvider } from 'notistack'
 
 function MyApp({ Component, pageProps, router }: AppProps): React.ReactElement {
   useEffect(() => {
@@ -34,8 +34,9 @@ function MyApp({ Component, pageProps, router }: AppProps): React.ReactElement {
       <ApiProvider value={{ client }}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <Component {...pageProps} />
-          <ToastContainer />
+          <SnackbarProvider maxSnack={5}>
+            <Component {...pageProps} />
+          </SnackbarProvider>
         </ThemeProvider>
       </ApiProvider>
     </>
