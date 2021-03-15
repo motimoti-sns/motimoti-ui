@@ -54,7 +54,7 @@ export class Client {
    * @param params login params.
    */
   async login(params: LoginParams): Promise<string> {
-    const res = await this.http.post('/api/register', params)
+    const res = await this.http.post('/api/login', params)
 
     return res.data
   }
