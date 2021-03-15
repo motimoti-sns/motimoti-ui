@@ -2,6 +2,7 @@ import {
   Badge,
   Divider,
   Drawer,
+  LinearProgress,
   List,
   ListItem,
   ListItemIcon,
@@ -16,9 +17,11 @@ import {
   Notifications,
   Settings,
 } from '@material-ui/icons'
+import nookies from 'nookies'
 import clsx from 'clsx'
 import Image from 'next/image'
 import { useState } from 'react'
+import { useRouter } from 'next/dist/client/router'
 
 const useStyles = makeStyles({
   root: {
@@ -64,6 +67,16 @@ export const TimelineLayout: React.FC = (props) => {
   const badgeMax = 99
   const [notificationCount] = useState(100)
   const [messageCount] = useState(100)
+  const [loading, setLoading] = useState(false)
+  const router = useRouter()
+
+  const logout = async () => {
+    setLoading(true)
+    nookies.destroy(null, 'jwt')
+    nookies.set(null, 'jwt', '', {})
+    await router.push('/register')
+    setLoading(false)
+  }
 
   return (
     <div className={classes.root}>
@@ -72,6 +85,7 @@ export const TimelineLayout: React.FC = (props) => {
         variant="persistent"
         open
       >
+        {loading && <LinearProgress color="secondary" />}
         <div className={classes.brand}>
           <Image src="/motimoti-dark.svg" width={128} height={128} />
         </div>
@@ -116,7 +130,7 @@ export const TimelineLayout: React.FC = (props) => {
             <ListItemText primary="設定" />
           </ListItem>
           <Divider />
-          <ListItem button className={clsx(classes.menuItem)}>
+          <ListItem button className={clsx(classes.menuItem)} onClick={logout}>
             <ListItemIcon>
               <ExitToApp />
             </ListItemIcon>
