@@ -39,7 +39,7 @@ export type PostCardProps = {
 export const PostCard: React.FC<PostCardProps> = (props) => {
   const classes = useStyles()
   const [now, setNow] = useState<Date>()
-  const { userDisplayName, username, content, createdAt } = props
+  const { userDisplayName, username, content, createdAt, ...card } = props
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -51,7 +51,7 @@ export const PostCard: React.FC<PostCardProps> = (props) => {
 
   return (
     <>
-      <Card {...props}>
+      <Card {...card}>
         <CardHeader
           avatar={
             <Avatar className={classes.avatar}>
