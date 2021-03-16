@@ -90,10 +90,14 @@ export const HomePage: NextPage<HomePageProps> = (props) => {
         {posts.map((p) => (
           <PostCardWithMargin
             key={p.post_id}
+            userId={p.user.id}
+            postId={p.post_id}
             username={p.user.name}
             userDisplayName={p.user.name}
             content={p.text_body}
             createdAt={new Date(parseInt(p.timestamp))}
+            jwt={props.jwt}
+            onEffect={updatePosts}
           />
         ))}
       </TimelineLayout>
