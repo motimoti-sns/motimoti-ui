@@ -1,5 +1,7 @@
 import {
   Avatar,
+  BottomNavigation,
+  BottomNavigationAction,
   Card,
   CardActions,
   CardContent,
@@ -10,9 +12,19 @@ import {
   makeStyles,
   Typography,
 } from '@material-ui/core'
-import { AccountCircle, Favorite } from '@material-ui/icons'
+import {
+  AccountCircle,
+  Delete,
+  Edit,
+  Favorite,
+  Loop,
+  Send,
+} from '@material-ui/icons'
+import { useSnackbar } from 'notistack'
 import { useEffect, useState } from 'react'
+import { useApiContext } from '../contexts/ApiContext'
 import { getDateText } from '../utils/getDateText'
+import { PostForm } from './PostForm'
 
 const useStyles = makeStyles((theme) => ({
   avatar: {
@@ -26,9 +38,13 @@ const useStyles = makeStyles((theme) => ({
  */
 export type PostCardProps = {
   userDisplayName: string
+  userId: number
+  postId: number
   username: string
   content: string
   createdAt: Date
+  jwt: string
+  onEffect?: () => void
 } & CardProps
 
 /**
@@ -39,7 +55,82 @@ export type PostCardProps = {
 export const PostCard: React.FC<PostCardProps> = (props) => {
   const classes = useStyles()
   const [now, setNow] = useState<Date>()
-  const { userDisplayName, username, content, createdAt, ...card } = props
+  const [newText, setNewText] = useState('')
+  const [isEditor, setIsEditor] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const api = useApiContext()
+  const { enqueueSnackbar } = useSnackbar()
+  const {
+    userDisplayName,
+    username,
+    content,
+    createdAt,
+    userId,
+    postId,
+    onEffect,
+    ...card
+  } = props
+
+  const openEditor = () => {
+    setNewText(props.content)
+    setIsEditor(true)
+  }
+
+  const onDelete = async () => {
+    setLoading(true)
+
+    try {
+      await api.client.deletePost({
+        post_id: postId,
+        jwt: props.jwt,
+      })
+      enqueueSnackbar('削除しました', {
+        variant: 'success',
+        anchorOrigin: {
+          horizontal: 'right',
+          vertical: 'bottom',
+        },
+        autoHideDuration: 2000,
+      })
+      onEffect && onEffect()
+    } catch (error) {
+      console.log('error', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onSubmit = async () => {
+    if (props.content === newText) {
+      setIsEditor(false)
+      return
+    }
+
+    setLoading(true)
+
+    try {
+      await api.client.updatePost({
+        user_id: userId,
+        post_id: postId,
+        text: newText,
+        jwt: props.jwt,
+      })
+      setIsEditor(false)
+      enqueueSnackbar('編集しました', {
+        variant: 'success',
+        anchorOrigin: {
+          horizontal: 'right',
+          vertical: 'bottom',
+        },
+        autoHideDuration: 2000,
+      })
+      onEffect && onEffect()
+    } catch (error) {
+      console.log('error', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
     const id = setInterval(() => {
@@ -62,15 +153,36 @@ export const PostCard: React.FC<PostCardProps> = (props) => {
           subheader={`@${username} ${getDateText(now, createdAt)}`}
         />
         <Divider />
-        <CardContent>
-          <Typography paragraph>{content}</Typography>
-        </CardContent>
-        <Divider />
-        <CardActions>
-          <IconButton>
-            <Favorite />
-          </IconButton>
-        </CardActions>
+        {isEditor ? (
+          <>
+            <PostForm
+              text={newText}
+              onChange={setNewText}
+              submitText={props.content === newText ? '戻る' : '更新'}
+              submitIcon={props.content === newText ? <Loop /> : <Send />}
+              onSubmit={onSubmit}
+              loading={loading}
+            />
+          </>
+        ) : (
+          <>
+            <CardContent>
+              <Typography paragraph>{content}</Typography>
+            </CardContent>
+            <Divider />
+            <CardActions>
+              <IconButton onClick={onDelete} disabled={loading}>
+                <Delete />
+              </IconButton>
+              <IconButton onClick={openEditor} disabled={loading}>
+                <Edit />
+              </IconButton>
+              <IconButton disabled={loading}>
+                <Favorite />
+              </IconButton>
+            </CardActions>
+          </>
+        )}
       </Card>
     </>
   )
