@@ -25,6 +25,9 @@ export type PostFormProps = {
   onChange(text: string): void
   text: string
   loading?: boolean
+  noCard?: boolean
+  submitText?: string
+  submitIcon?: React.ReactElement
 }
 
 /**
@@ -32,6 +35,7 @@ export type PostFormProps = {
  */
 export const PostForm: React.FC<PostFormProps> = (props) => {
   const classes = useStyles()
+  const CardWrap = props.noCard ? 'div' : Card
 
   const onChange = (text: string) => {
     props.onChange(text)
@@ -43,7 +47,7 @@ export const PostForm: React.FC<PostFormProps> = (props) => {
 
   return (
     <>
-      <Card>
+      <CardWrap>
         {props.loading && <LinearProgress color="secondary" />}
         <CardContent>
           <TextField
@@ -62,15 +66,15 @@ export const PostForm: React.FC<PostFormProps> = (props) => {
           <Button
             color="primary"
             variant="contained"
-            endIcon={<Send />}
+            endIcon={props.submitIcon ?? <Send />}
             disableElevation
             disabled={props.text.length === 0 || props.loading}
             onClick={onPostClicked}
           >
-            投稿する
+            {props.submitText ?? '投稿する'}
           </Button>
         </CardActions>
-      </Card>
+      </CardWrap>
     </>
   )
 }
