@@ -1,7 +1,5 @@
 import {
   Avatar,
-  BottomNavigation,
-  BottomNavigationAction,
   Card,
   CardActions,
   CardContent,
