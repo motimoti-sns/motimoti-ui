@@ -16,6 +16,7 @@ import {
 import { LockOutlined, PersonAdd } from '@material-ui/icons'
 import { TextField } from 'mui-rff'
 import { NextPage } from 'next'
+import { useRouter } from 'next/dist/client/router'
 import Link from 'next/link'
 import { useState } from 'react'
 import { Form } from 'react-final-form'
@@ -90,6 +91,7 @@ const useStyles = makeStyles((theme) => ({
 export const RegisterPage: NextPage = () => {
   const classes = useStyles()
   const api = useApiContext()
+  const router = useRouter()
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
 
@@ -98,8 +100,8 @@ export const RegisterPage: NextPage = () => {
     await waitFor(1000)
 
     try {
-      const token = await api.client.register(data)
-      console.log(token)
+      await api.client.register(data)
+      await router.push('/login')
     } catch (e) {
       console.log(e)
     } finally {
