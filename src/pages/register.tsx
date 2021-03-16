@@ -22,6 +22,7 @@ import { useState } from 'react'
 import { Form } from 'react-final-form'
 import Particles from 'react-particles-js'
 import { RegisterParams } from '../classes/Client'
+import { PageHead } from '../components/PageHead'
 import { useApiContext } from '../contexts/ApiContext'
 import { waitFor } from '../utils/waitFor'
 
@@ -135,6 +136,8 @@ export const RegisterPage: NextPage = () => {
 
   return (
     <>
+      <PageHead title="Motimotiに登録する" />
+
       <Grid container component="main" className={classes.root}>
         <Particles
           className={classes.particles}
@@ -153,13 +156,8 @@ export const RegisterPage: NextPage = () => {
           <img src="/motimoti-light.svg" className={classes.motimotiLogo} />
           <div className={classes.descriptionWrap}>
             <Typography paragraph className={classes.description}>
-              Motimoti(モチモチ)はブロックチェーンを利用した新時代のSNSです。
-            </Typography>
-            <Typography paragraph className={classes.description}>
-              ブロックチェーンとは仮想通貨などに使われている技術です。その非中央集権的な特性上、データ紛失への耐性が高いことが知られています。
-            </Typography>
-            <Typography paragraph className={classes.description}>
-              この技術により、SNSのありとあらゆるデータはMotimotiのブロックチェーンネットワークに保存されます。
+              ブロックチェーンを用いて本文データの真性性を検証する機能を持ち、
+              不適切な書き込みを強力にすべてのユーザーが監視できる、次世代SNSです。
             </Typography>
           </div>
         </Grid>
