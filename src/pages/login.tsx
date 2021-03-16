@@ -13,6 +13,7 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 import { Form } from 'react-final-form'
 import { LoginParams } from '../classes/Client'
+import { PageHead } from '../components/PageHead'
 import { useApiContext } from '../contexts/ApiContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -66,6 +67,8 @@ export const LoginPage: NextPage = () => {
 
   return (
     <>
+      <PageHead title="Motimotiへログイン" />
+
       <Container component="main" maxWidth="xs">
         <div className={classes.paper}>
           <img src="/motimoti-dark.svg" width="200px" height="200px" />
