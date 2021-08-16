@@ -22,9 +22,13 @@ function MyApp({ Component, pageProps, router }: AppProps): React.ReactElement {
     client.onJwtChanged((jwt) => {
       if (!jwt) {
         nookies.destroy(null, 'jwt')
-        nookies.set(null, 'jwt', '', {})
+        nookies.set(null, 'jwt', '', {
+          sameSite: 'None; Secure'
+        })
       } else {
-        nookies.set(null, 'jwt', jwt, {})
+        nookies.set(null, 'jwt', jwt, {
+          sameSite: 'None; Secure'
+        })
       }
     })
   }
